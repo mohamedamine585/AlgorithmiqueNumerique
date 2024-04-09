@@ -30,3 +30,38 @@ std::vector<double> back_substitution(const std::vector<std::vector<double>>& U,
 
     return x;
 }
+int main() {
+    // Example system of equations
+    std::vector<std::vector<double>> A = {{2, 1, -1}, {1, 3, 2}, {1, 1, 1}};
+    std::vector<double> b = {2, 12, 4};
+
+    // Perform Gaussian elimination
+    gaussian_elimination(A, b);
+
+    // Perform back substitution to find the solution vector x
+    std::vector<double> x = back_substitution(A, b);
+
+    // Print the upper triangular matrix A and the modified vector b
+    std::cout << "Upper triangular matrix A after Gaussian elimination:" << std::endl;
+    for (const auto& row : A) {
+        for (const auto& elem : row) {
+            std::cout << elem << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "Modified vector b after Gaussian elimination:" << std::endl;
+    for (const auto& elem : b) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    // Print the solution vector x
+    std::cout << "Solution vector x:" << std::endl;
+    for (const auto& elem : x) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
