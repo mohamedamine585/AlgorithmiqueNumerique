@@ -79,25 +79,29 @@ int main()
         double totalElapsedTime = 0.0;
         int numTrials = 5;
 
-        for (int trial = 0; trial < numTrials; ++trial)
+      for (int trial = 0; trial < numTrials; ++trial)
+{
+    std::vector<std::vector<double>> L;
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
         {
-            std::vector<std::vector<double>> L;
-            for (int i = 0; i < n; ++i)
-            {
-                for (int j = 0; j < n; ++j)
-                {
-                    A[i][j] = distribution(generator);
-                }
-                b[i] = distribution(generator);
-            }
-            auto start = high_resolution_clock::now();
-
-            cholesky_decomposition(A, L);
-
-            auto end = high_resolution_clock::now();
-            duration<double> elapsedTime = duration_cast<duration<double>>(end - start);
-            totalElapsedTime += elapsedTime.count();
+            A[i][j] = distribution(generator);
         }
+        b[i] = distribution(generator);
+    }
+    auto start = high_resolution_clock::now();
+
+    cholesky_decomposition(A, L);
+
+    std::vector<double> x;
+    solve_linear_system(L, b, x);
+
+    auto end = high_resolution_clock::now();
+    duration<double> elapsedTime = duration_cast<duration<double>>(end - start);
+    totalElapsedTime += elapsedTime.count();
+}
+
 
         double avgTime = totalElapsedTime / numTrials;
         avgTimes.push_back(avgTime);
