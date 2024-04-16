@@ -35,7 +35,34 @@ void cholesky_decomposition(const std::vector<std::vector<double>> &A, std::vect
         }
     }
 }
+void solve_linear_system(const std::vector<std::vector<double>>& L, const std::vector<double>& b, std::vector<double>& x)
+{
+    int n = L.size();
+    x.resize(n);
 
+    // Forward substitution: Solve Ly = b
+    std::vector<double> y(n);
+    for (int i = 0; i < n; ++i)
+    {
+        double sum = 0.0;
+        for (int j = 0; j < i; ++j)
+        {
+            sum += L[i][j] * y[j];
+        }
+        y[i] = (b[i] - sum) / L[i][i];
+    }
+
+    // Backward substitution: Solve L^T x = y
+    for (int i = n - 1; i >= 0; --i)
+    {
+        double sum = 0.0;
+        for (int j = i + 1; j < n; ++j)
+        {
+            sum += L[j][i] * x[j];
+        }
+        x[i] = (y[i] - sum) / L[i][i];
+    }
+}
 int main()
 {
     vector<int> sizes = {100, 400, 500, 700, 1000, 1500, 2000};
